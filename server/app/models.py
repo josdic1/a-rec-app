@@ -12,6 +12,11 @@ class User(db.Model):
     recipes = db.relationship('Recipe', backref='user', lazy=True, cascade='all, delete-orphan')
     
     @property
+    def categories(self):
+        """Get unique categories from user's recipes"""
+        return list(set([recipe.category for recipe in self.recipes]))
+    
+    @property
     def password(self):
         """Prevent password from being accessed"""
         raise AttributeError('password is not a readable attribute')
